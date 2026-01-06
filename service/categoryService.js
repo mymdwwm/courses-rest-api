@@ -44,8 +44,24 @@ const createCategory = async (categoryData) => {
     return newCategory;
 };
 
+const getCategoryWithCourses = async (id) => {
+    const category = await Category.findByPk(id, {
+        include: [{
+            model: Course,
+            as: 'Courses' // ou 'courses' selon vos associations
+        }]
+    });
+
+    if (!category) {
+        throw new Error('Catégorie non trouvée');
+    }
+
+    return category;
+};
+
 module.exports = {
     getAllCategories,
     getCategoryById,
-    createCategory
+    createCategory,
+    getCategoryWithCourses
 };

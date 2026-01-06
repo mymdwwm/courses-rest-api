@@ -7,7 +7,7 @@ const swaggerUi = require('swagger-ui-express');
 const swaggerSpec = require('./config/swagger');
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3007;
 
 app.use(express.json());
 
@@ -24,13 +24,15 @@ app.use('/categories', categoryRouter);
 const initDatabase = async () => {
     try {
         await db.sync(); // permet de se connecter et de créer la base de données
-        console.log('Base de données synchronisée');
+        console.log('✓ Base de données connectée');
+        
         app.listen(PORT, () => {
-            console.log(`Serveur démarré sur http://localhost:${PORT}`);
-            console.log(`Documentation Swagger disponible sur http://localhost:${PORT}/api-docs`);
+            console.log(` Serveur démarré sur http://localhost:${PORT}`);
+            console.log(` Documentation Swagger disponible sur http://localhost:${PORT}/api-docs`);
         });
     } catch (error) {
         console.error('Erreur initialisation:', error);
     }
 };
+
 initDatabase();
